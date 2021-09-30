@@ -7,16 +7,20 @@ class CardTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cardDeck: [ ]
+            cardDeck: [ ],
+            playerHand: [ ],
+            computerHand: [ ],
+            numberOfPlayers: 2
         };
     }
 
-    //shuffle deck each time the app refreshes:
     componentDidMount() {
-        this.shuffleDeck();
+        this.buildDeck();
+        this.deal();
     }
 
-    shuffleDeck() {
+    //Builds full 52 card deck and sets to state:
+    buildDeck() {
         let suitDeck = [ ];
         let completeDeck = [ ];
         let suits = ['Clubs', 'Spades', 'Diamonds', 'Hearts'];
@@ -26,11 +30,11 @@ class CardTable extends Component {
             completeDeck.push(...suitDeck);
             suitDeck = [ ];
         }
-        completeDeck.sort(() => Math.random() - 0.5);
-        console.log(completeDeck);
+        // completeDeck.sort(() => Math.random() - 0.5);
         this.setState({ cardDeck: completeDeck });
     }
 
+    //Builds suit of 13 cards, adding suit passed in:
     buildSuit(suit) {
         let deckArr = [ ];
         for (let i = 0; i < 13; i++) {
@@ -173,9 +177,38 @@ class CardTable extends Component {
         return deckArr;
     }
 
+    //Generates random index of 1,000,000 number range:
     generateRandomIndex() {
         return Math.floor(Math.random() * 1000000);
     }
+
+
+    //deals cards, alternating draw to player then computer:
+    deal() {
+        if (this.state.cardDeck.length > 1) {
+            console.log(this.state.cardDeck);
+            const playerHand = [this.state.cardDeck.splice(0, 1), this.state.cardDeck.splice(2, 3)];
+            const computerHand = [this.state.cardDeck.splice(1, 2), this.state.cardDeck.splice(3, 4)];
+            this.setState({ playerHand, computerHand });
+        }
+        else {
+            setTimeout(() => { 
+                console.log(this.state.cardDeck);
+                const playerHand = [this.state.cardDeck.splice(0, 1)];
+                const computerHand = [this.state.cardDeck.splice(0, 1)];
+                playerHand.push(this.state.cardDeck.splice(0, 1));
+                computerHand.push(this.state.cardDeck.splice(0, 1));
+                this.setState({ playerHand, computerHand });
+        }, 1000);
+        }
+        // const playerHand = [this.state.cardDeck[0], this.state.cardDeck[2]];
+        // const computerHand = [this.state.cardDeck[1], this.state.cardDeck[3]];
+        // this.setState({ playerHand, computerHand });
+    }
+
+    // setTimeout(() => {console.log("this is the first message")}, 5000);
+
+
 
     render() {
         return (
@@ -195,7 +228,9 @@ class CardTable extends Component {
                         margin: "auto",
                         border: "3px solid purple"
                 }}>
-                <ComputerCard />
+                <ComputerCard 
+                    computerHand={this.state.computerHand}
+                />
                 </div>
                 <div className="player-card-container"
                     style={{ 
@@ -204,7 +239,9 @@ class CardTable extends Component {
                         margin: "auto",
                         border: "3px solid brown" 
                 }}>
-                <PlayerCard />
+                <PlayerCard 
+                    playerHand={this.state.playerHand}
+                />
                 </div>
             </div>        
         );
