@@ -30,7 +30,7 @@ class CardTable extends Component {
             completeDeck.push(...suitDeck);
             suitDeck = [ ];
         }
-        // completeDeck.sort(() => Math.random() - 0.5);
+        completeDeck.sort(() => Math.random() - 0.5);
         this.setState({ cardDeck: completeDeck });
     }
 
@@ -182,33 +182,24 @@ class CardTable extends Component {
         return Math.floor(Math.random() * 1000000);
     }
 
+    // Draws to player and computer, alternating draws (casino style):
+    draw() {
+        const playerHand = [...this.state.cardDeck.splice(0, 1)];
+        const computerHand = [...this.state.cardDeck.splice(0, 1)];
+        playerHand.push(...this.state.cardDeck.splice(0, 1));
+        computerHand.push(...this.state.cardDeck.splice(0, 1));
+        this.setState({ playerHand, computerHand });
+    }
 
     //deals cards, alternating draw to player then computer:
     deal() {
         if (this.state.cardDeck.length > 1) {
-            console.log(this.state.cardDeck);
-            const playerHand = [this.state.cardDeck.splice(0, 1), this.state.cardDeck.splice(2, 3)];
-            const computerHand = [this.state.cardDeck.splice(1, 2), this.state.cardDeck.splice(3, 4)];
-            this.setState({ playerHand, computerHand });
+            this.draw();
         }
         else {
-            setTimeout(() => { 
-                console.log(this.state.cardDeck);
-                const playerHand = [this.state.cardDeck.splice(0, 1)];
-                const computerHand = [this.state.cardDeck.splice(0, 1)];
-                playerHand.push(this.state.cardDeck.splice(0, 1));
-                computerHand.push(this.state.cardDeck.splice(0, 1));
-                this.setState({ playerHand, computerHand });
-        }, 1000);
+            setTimeout(() => this.draw(), 1000);
         }
-        // const playerHand = [this.state.cardDeck[0], this.state.cardDeck[2]];
-        // const computerHand = [this.state.cardDeck[1], this.state.cardDeck[3]];
-        // this.setState({ playerHand, computerHand });
     }
-
-    // setTimeout(() => {console.log("this is the first message")}, 5000);
-
-
 
     render() {
         return (
