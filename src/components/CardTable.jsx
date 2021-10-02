@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PlayerCard from './PlayerCard';
 import ComputerCard from './ComputerCard';
 import '../styling/CardTable.scss';
+import { cardClips } from '../CardImageCompiler.js';
 
 class CardTable extends Component {
     constructor(props) {
@@ -26,7 +27,8 @@ class CardTable extends Component {
         let suits = ['Clubs', 'Spades', 'Diamonds', 'Hearts'];
         for (let x = 0; x < suits.length; x++) {
             let currentSuit = suits[x];
-            suitDeck = this.buildSuit(currentSuit);
+            let suitDeckClips = cardClips[suits];
+            suitDeck = this.buildSuit(currentSuit, suitDeckClips);
             completeDeck.push(...suitDeck);
             suitDeck = [ ];
         }
@@ -35,7 +37,7 @@ class CardTable extends Component {
     }
 
     //Builds suit of 13 cards, adding suit passed in:
-    buildSuit(suit) {
+    buildSuit(suit, cardClips) {
         let deckArr = [ ];
         for (let i = 0; i < 13; i++) {
             let card = { };
@@ -44,9 +46,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "A",
-                        name: "Ace",
+                        name: "ace",
                         suit,
-                        value: 10
+                        value: 10,
                     };
                     deckArr.push(card);
                     break;
@@ -54,9 +56,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "2",
-                        name: "Two",
+                        name: "two",
                         suit,
-                        value: 2
+                        value: 2,
                     };
                     deckArr.push(card);
                     break;
@@ -64,9 +66,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "3",
-                        name: "Three",
+                        name: "three",
                         suit,
-                        value: 3
+                        value: 3,
                     };
                     deckArr.push(card);
                     break;
@@ -74,9 +76,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "4",
-                        name: "Four",
+                        name: "four",
                         suit,
-                        value: 4
+                        value: 4,
                     };
                     deckArr.push(card);
                     break;
@@ -84,9 +86,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "5",
-                        name: "Five",
+                        name: "five",
                         suit,
-                        value: 5
+                        value: 5,
                     };
                     deckArr.push(card);
                     break;
@@ -94,9 +96,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "6",
-                        name: "Six",
+                        name: "six",
                         suit,
-                        value: 6
+                        value: 6,
                     };
                     deckArr.push(card);
                     break;
@@ -104,9 +106,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "7",
-                        name: "Seven",
+                        name: "seven",
                         suit,
-                        value: 7
+                        value: 7,
                     };
                     deckArr.push(card);
                     break;
@@ -114,9 +116,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "8",
-                        name: "Eight",
+                        name: "eight",
                         suit,
-                        value: 8
+                        value: 8,
                     };
                     deckArr.push(card);
                     break;
@@ -124,9 +126,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "9",
-                        name: "Nine",
+                        name: "nine",
                         suit,
-                        value: 9
+                        value: 9,
                     };
                     deckArr.push(card);
                     break;
@@ -134,9 +136,9 @@ class CardTable extends Component {
                     card = {
                         id: this.generateRandomIndex(),
                         label: "10",
-                        name: "Ten",
+                        name: "ten",
                         suit,
-                        value: 10
+                        value: 10,
                     };
                     deckArr.push(card);
                     break;
@@ -146,7 +148,7 @@ class CardTable extends Component {
                         label: "J",
                         name: "Jack",
                         suit,
-                        value: 10
+                        value: 10,
                     };
                     deckArr.push(card);
                     break;
@@ -156,7 +158,7 @@ class CardTable extends Component {
                         label: "Q",
                         name: "Queen",
                         suit,
-                        value: 10
+                        value: 10,
                     };
                     deckArr.push(card);
                     break;
@@ -166,7 +168,7 @@ class CardTable extends Component {
                         label: "K",
                         name: "King",
                         suit,
-                        value: 10
+                        value: 10,
                     };
                     deckArr.push(card);
                     break;

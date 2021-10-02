@@ -1,9 +1,11 @@
 .card-table {
-    border: 5px outset black;
+    background-image: url('../feltTableBG.jpeg');
+    background-position: center;
+    border: 10px outset black;
     border-radius: 5% 5% 50% 50%;
-    margin: auto;
-    width: 80%;
-    height: 60vh;
     display: flex;
     flex-flow: row wrap;
+    height: 50vh;
+    margin: auto;
+    width: 65%;
 }
