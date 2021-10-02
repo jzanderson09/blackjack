@@ -5,23 +5,27 @@ const ComputerCard = props => {
     if (props.computerHand.length > 1) {
         return (
             <div className="computer-card">
-            {/* <p>Card: {props.computerHand[0].value}</p>
-            <p>Card: {props.computerHand[1].value}</p> */}
+                {props.computerHand.map(card => <img className='cards' key={card.id} src={card.image} alt={card.value} />)}
         </div>  
         );
     }
     else {
         return (
-            <div className="computer-card"
-                style={{ 
-                    border: "3px solid red",
-                    margin: "auto",
-                    marginTop: "2%",
-                    width: "40%"
-            }}>
-            <h5>Computer Card</h5>
-        </div>  
-        );
+            <div className="computer-card">
+                <img
+                    alt='card'
+                    className='cards'
+                    key={Math.random()} 
+                    src={props.cardBack} 
+                />
+                <img
+                    alt='card'
+                    className='cards' 
+                    key={Math.random()} 
+                    src={props.cardBack} 
+                />
+            </div>  
+        ); 
     }
 };
 

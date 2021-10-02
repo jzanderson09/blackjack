@@ -5,15 +5,25 @@ const PlayerCard = props => {
     if (props.playerHand.length > 1) {
         return (
             <div className="player-card">
-            {/* <p>Card: {props.playerHand[0].value}</p>
-            <p>Card: {props.playerHand[1].value}</p> */}
+            {props.playerHand.map(card => <img className='cards' key={card.id} src={card.image} alt={card.value} />)}
             </div>  
         );
     }
     else {
         return (
             <div className="player-card">
-            <h5>Player Card</h5>
+                <img
+                    alt='card'
+                    className='cards'
+                    key={Math.random()} 
+                    src={props.cardBack} 
+                />
+                <img
+                    alt='card'
+                    className='cards' 
+                    key={Math.random()} 
+                    src={props.cardBack} 
+                />
             </div>  
         ); 
     }

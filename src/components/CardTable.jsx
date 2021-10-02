@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import PlayerCard from './PlayerCard';
 import ComputerCard from './ComputerCard';
 import '../styling/CardTable.scss';
-import { cardClips } from '../CardImageCompiler.js';
+import cardBack from '../playing-cards/CardBack.png';
+import { 
+    Clubs, 
+    Spades, 
+    Diamonds, 
+    Hearts } from '../CardImageCompiler.js';
 
 class CardTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            cardBack,
             cardDeck: [ ],
-            playerHand: [ ],
             computerHand: [ ],
-            numberOfPlayers: 2
+            numberOfPlayers: 2,
+            playerHand: [ ],
+            Clubs,
+            Spades,
+            Diamonds,
+            Hearts
         };
     }
 
@@ -27,8 +37,7 @@ class CardTable extends Component {
         let suits = ['Clubs', 'Spades', 'Diamonds', 'Hearts'];
         for (let x = 0; x < suits.length; x++) {
             let currentSuit = suits[x];
-            let suitDeckClips = cardClips[suits];
-            suitDeck = this.buildSuit(currentSuit, suitDeckClips);
+            suitDeck = this.buildSuit(currentSuit);
             completeDeck.push(...suitDeck);
             suitDeck = [ ];
         }
@@ -37,7 +46,7 @@ class CardTable extends Component {
     }
 
     //Builds suit of 13 cards, adding suit passed in:
-    buildSuit(suit, cardClips) {
+    buildSuit(suit) {
         let deckArr = [ ];
         for (let i = 0; i < 13; i++) {
             let card = { };
@@ -49,6 +58,7 @@ class CardTable extends Component {
                         name: "ace",
                         suit,
                         value: 10,
+                        image: this.state[suit][0]
                     };
                     deckArr.push(card);
                     break;
@@ -59,6 +69,7 @@ class CardTable extends Component {
                         name: "two",
                         suit,
                         value: 2,
+                        image: this.state[suit][1]
                     };
                     deckArr.push(card);
                     break;
@@ -69,6 +80,7 @@ class CardTable extends Component {
                         name: "three",
                         suit,
                         value: 3,
+                        image: this.state[suit][2]
                     };
                     deckArr.push(card);
                     break;
@@ -79,6 +91,7 @@ class CardTable extends Component {
                         name: "four",
                         suit,
                         value: 4,
+                        image: this.state[suit][3]
                     };
                     deckArr.push(card);
                     break;
@@ -89,6 +102,7 @@ class CardTable extends Component {
                         name: "five",
                         suit,
                         value: 5,
+                        image: this.state[suit][4]
                     };
                     deckArr.push(card);
                     break;
@@ -99,6 +113,7 @@ class CardTable extends Component {
                         name: "six",
                         suit,
                         value: 6,
+                        image: this.state[suit][5]
                     };
                     deckArr.push(card);
                     break;
@@ -109,6 +124,7 @@ class CardTable extends Component {
                         name: "seven",
                         suit,
                         value: 7,
+                        image: this.state[suit][6]
                     };
                     deckArr.push(card);
                     break;
@@ -119,6 +135,7 @@ class CardTable extends Component {
                         name: "eight",
                         suit,
                         value: 8,
+                        image: this.state[suit][7]
                     };
                     deckArr.push(card);
                     break;
@@ -129,6 +146,7 @@ class CardTable extends Component {
                         name: "nine",
                         suit,
                         value: 9,
+                        image: this.state[suit][8]
                     };
                     deckArr.push(card);
                     break;
@@ -139,6 +157,7 @@ class CardTable extends Component {
                         name: "ten",
                         suit,
                         value: 10,
+                        image: this.state[suit][9]
                     };
                     deckArr.push(card);
                     break;
@@ -149,6 +168,7 @@ class CardTable extends Component {
                         name: "Jack",
                         suit,
                         value: 10,
+                        image: this.state[suit][10]
                     };
                     deckArr.push(card);
                     break;
@@ -159,6 +179,7 @@ class CardTable extends Component {
                         name: "Queen",
                         suit,
                         value: 10,
+                        image: this.state[suit][11]
                     };
                     deckArr.push(card);
                     break;
@@ -169,6 +190,7 @@ class CardTable extends Component {
                         name: "King",
                         suit,
                         value: 10,
+                        image: this.state[suit][12]
                     };
                     deckArr.push(card);
                     break;
@@ -206,11 +228,15 @@ class CardTable extends Component {
     render() {
         return (
             <div className="card-table">
-                <ComputerCard 
+                <ComputerCard
+                    cardBack={this.state.cardBack} 
                     computerHand={this.state.computerHand}
+                    generateRandomIndex={this.generateRandomIndex}
                 />
-                <PlayerCard 
-                    playerHand={this.state.playerHand}
+                <PlayerCard
+                    cardBack={this.state.cardBack}
+                    playerHand={this.state.playerHand} 
+                    generateRandomIndex={this.generateRandomIndex}               
                 />
             </div>        
         );
