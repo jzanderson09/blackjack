@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
+import { Clubs, Spades, Diamonds, Hearts } from '../CardImageCompiler.js';
+import cardBack from '../playing-cards/CardBack.png';
+import '../styling/CardTable.scss';
+
+
+//Components:
 import PlayerCard from './PlayerCard';
 import ComputerCard from './ComputerCard';
-import '../styling/CardTable.scss';
-import cardBack from '../playing-cards/CardBack.png';
-import { 
-    Clubs, 
-    Spades, 
-    Diamonds, 
-    Hearts } from '../CardImageCompiler.js';
+import ButtonMenu from './ButtonMenu';
 
 class CardTable extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class CardTable extends Component {
             cardDeck: [ ],
             computerHand: [ ],
             numberOfPlayers: 2,
+            play: false,
             playerHand: [ ],
             Clubs,
             Spades,
@@ -25,16 +26,14 @@ class CardTable extends Component {
         };
         this.buildDeck = this.buildDeck.bind(this);
         this.buildSuit = this.buildSuit.bind(this);
-        this.draw = this.draw.bind(this);
         this.deal = this.deal.bind(this);
     }
 
     componentDidMount() {
         this.buildDeck();
-        this.deal();
     }
 
-    //Builds full 52 card deck and sets to state:
+    //Builds full 52 card deck (numerically by suit) and sets to state:
     buildDeck() {
         let suitDeck = [ ];
         let completeDeck = [ ];
@@ -45,7 +44,7 @@ class CardTable extends Component {
             completeDeck.push(...suitDeck);
             suitDeck = [ ];
         }
-        completeDeck.sort(() => Math.random() - 0.5);
+        completeDeck = this.shuffleDeck(completeDeck);
         this.setState({ cardDeck: completeDeck });
     }
 
@@ -205,13 +204,12 @@ class CardTable extends Component {
         return deckArr;
     }
 
-    //Generates random index of 1,000,000 number range:
-    generateRandomIndex() {
-        return Math.floor(Math.random() * 1000000);
-    }
-
     // Draws to player and computer, alternating draws (casino style):
-    draw() {
+    deal() {
+        if (this.state.cardDeck.length < 4) {
+            window.alert('Reshuffling!');
+            this.buildDeck();
+        }
         const playerHand = [...this.state.cardDeck.splice(0, 1)];
         const computerHand = [...this.state.cardDeck.splice(0, 1)];
         playerHand.push(...this.state.cardDeck.splice(0, 1));
@@ -219,14 +217,14 @@ class CardTable extends Component {
         this.setState({ playerHand, computerHand });
     }
 
-    //deals cards, alternating draw to player then computer:
-    deal() {
-        if (this.state.cardDeck.length > 1) {
-            this.draw();
-        }
-        else {
-            setTimeout(() => this.draw(), 1000);
-        }
+    //Generates random index of 1,000,000 number range:
+    generateRandomIndex() {
+        return Math.floor(Math.random() * 1000000);
+    }
+
+    //Returns shuffled deck:
+    shuffleDeck(deck) {
+        return deck.sort(() => Math.random() - 0.5);
     }
 
     render() {
@@ -241,6 +239,10 @@ class CardTable extends Component {
                     cardBack={this.state.cardBack}
                     playerHand={this.state.playerHand} 
                     generateRandomIndex={this.generateRandomIndex}               
+                />
+                <ButtonMenu
+                    deal={this.deal}
+                    play={this.state.play}
                 />
             </div>        
         );
