@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styling/PlayerCard.scss';
+import '../styling/Player.scss';
 
-const PlayerCard = props => {
+const Player = props => {
     if (props.playerHand.length > 1) {
         return (
             <div className="player-card">
@@ -29,4 +29,4 @@ const PlayerCard = props => {
     }
 };
 
-export default PlayerCard;
+export default Player;

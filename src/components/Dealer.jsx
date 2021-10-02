@@ -1,11 +1,11 @@
 import React from 'react';
-import '../styling/ComputerCard.scss';
+import '../styling/Dealer.scss';
 
-const ComputerCard = props => {
-    if (props.computerHand.length > 1) {
+const Dealer = props => {
+    if (props.dealerHand.length > 1) {
         return (
             <div className="computer-card">
-                {props.computerHand.map(card => <img className='cards computer' key={card.id} src={card.image} alt={card.value} />)}
+                {props.dealerHand.map(card => <img className='cards computer' key={card.id} src={card.image} alt={card.value} />)}
         </div>  
         );
     }
@@ -29,4 +29,4 @@ const ComputerCard = props => {
     }
 };
 
-export default ComputerCard;
+export default Dealer;

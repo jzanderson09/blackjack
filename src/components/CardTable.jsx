@@ -5,9 +5,10 @@ import '../styling/CardTable.scss';
 
 
 //Components:
-import PlayerCard from './PlayerCard';
-import ComputerCard from './ComputerCard';
+import Player from './Player';
+import Computer from './Dealer';
 import ButtonMenu from './ButtonMenu';
+import Score from './Score';
 
 class CardTable extends Component {
     constructor(props) {
@@ -15,10 +16,12 @@ class CardTable extends Component {
         this.state = {
             cardBack,
             cardDeck: [ ],
-            computerHand: [ ],
+            dealerHand: [ ],
+            dealerScore: 0,
             numberOfPlayers: 2,
             play: false,
             playerHand: [ ],
+            playerScore: 0,
             Clubs,
             Spades,
             Diamonds,
@@ -27,6 +30,7 @@ class CardTable extends Component {
         this.buildDeck = this.buildDeck.bind(this);
         this.buildSuit = this.buildSuit.bind(this);
         this.deal = this.deal.bind(this);
+        this.calculateScores = this.calculateScores.bind(this);
         this.shuffleDeck = this.shuffleDeck.bind(this);
     }
 
@@ -207,18 +211,28 @@ class CardTable extends Component {
 
     // Draws to player and computer, alternating draws (casino style):
     deal() {
+        setTimeout(this.calculateScores, 1);
+        // Returns new shuffled deck at end of draws:
         if (this.state.cardDeck.length < 4) {
             window.alert('Reshuffling!');
             this.buildDeck();
         }
-        if (!this.state.play) {
-            this.setState({ play: true });
-        }
         const playerHand = [...this.state.cardDeck.splice(0, 1)];
-        const computerHand = [...this.state.cardDeck.splice(0, 1)];
+        const dealerHand = [...this.state.cardDeck.splice(0, 1)];
         playerHand.push(...this.state.cardDeck.splice(0, 1));
-        computerHand.push(...this.state.cardDeck.splice(0, 1));
-        this.setState({ playerHand, computerHand });
+        dealerHand.push(...this.state.cardDeck.splice(0, 1));
+        // Toggles finite state (playing, not playing):
+        this.setState({ play: !this.state.play, 
+            dealerHand,playerHand });
+    }
+
+    // Evaluates hand and calculates scores:
+    calculateScores() {
+        let dealerScore = 0;
+        let playerScore = 0;
+        this.state.dealerHand.forEach(card => dealerScore += card.value);
+        this.state.playerHand.forEach(card => playerScore += card.value);
+        this.setState({ dealerScore, playerScore });
     }
 
     //Generates random index of 1,000,000 number range:
@@ -234,19 +248,24 @@ class CardTable extends Component {
     render() {
         return (
             <div className="card-table">
-                <ComputerCard
+                <Computer
                     cardBack={this.state.cardBack} 
-                    computerHand={this.state.computerHand}
+                    dealerHand={this.state.dealerHand}
                     generateRandomIndex={this.generateRandomIndex}
                 />
-                <PlayerCard
+                <Player
                     cardBack={this.state.cardBack}
                     playerHand={this.state.playerHand} 
                     generateRandomIndex={this.generateRandomIndex}               
                 />
                 <ButtonMenu
                     deal={this.deal}
+                    evaluate={this.evaluate}
                     play={this.state.play}
+                />
+                <Score 
+                    dealerScore={this.state.dealerScore}
+                    playerScore={this.state.playerScore}
                 />
             </div>        
         );
