@@ -221,6 +221,7 @@ class CardTable extends Component {
         const dealerHand = [...this.state.cardDeck.splice(0, 1)];
         playerHand.push(...this.state.cardDeck.splice(0, 1));
         dealerHand.push(...this.state.cardDeck.splice(0, 1));
+        dealerHand[0].image = this.state.cardBack;
         // Toggles finite state (playing, not playing):
         this.setState({ play: !this.state.play, 
             dealerHand,playerHand });
@@ -230,7 +231,7 @@ class CardTable extends Component {
     calculateScores() {
         let dealerScore = 0;
         let playerScore = 0;
-        this.state.dealerHand.forEach(card => dealerScore += card.value);
+        dealerScore = this.state.dealerHand[1].value;
         this.state.playerHand.forEach(card => playerScore += card.value);
         this.setState({ dealerScore, playerScore });
     }
