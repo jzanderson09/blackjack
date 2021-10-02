@@ -27,6 +27,7 @@ class CardTable extends Component {
         this.buildDeck = this.buildDeck.bind(this);
         this.buildSuit = this.buildSuit.bind(this);
         this.deal = this.deal.bind(this);
+        this.shuffleDeck = this.shuffleDeck.bind(this);
     }
 
     componentDidMount() {
@@ -209,6 +210,9 @@ class CardTable extends Component {
         if (this.state.cardDeck.length < 4) {
             window.alert('Reshuffling!');
             this.buildDeck();
+        }
+        if (!this.state.play) {
+            this.setState({ play: true });
         }
         const playerHand = [...this.state.cardDeck.splice(0, 1)];
         const computerHand = [...this.state.cardDeck.splice(0, 1)];

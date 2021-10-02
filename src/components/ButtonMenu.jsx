@@ -1,17 +1,18 @@
 import React from 'react';
+import '../styling/ButtonMenu.scss';
 
 const ButtonMenu = props => {
-    // if (props.play) {
-    //     return (
-    //         <div className='menu'>
-    //             <button onClick={props.deal}>Hit</button>
-    //             <button onClick={props.deal}>Stay</button>
-    //             <button onClick={props.deal}>Split</button>
-    //             <button onClick={props.deal}>Double Down</button>
+    if (props.play) {
+        return (
+            <div className='menu'>
+                <button onClick={() => props.evaluate()}>Hit</button>
+                <button>Stay</button>
+                <button>Split</button>
+                <button>Double Down</button>
 
-    //         </div> 
-    //     );
-    // }
+            </div> 
+        );
+    }
     return (
         <div className='menu'>
             <button onClick={props.deal}>Deal</button>
