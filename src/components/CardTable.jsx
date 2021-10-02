@@ -23,6 +23,10 @@ class CardTable extends Component {
             Diamonds,
             Hearts
         };
+        this.buildDeck = this.buildDeck.bind(this);
+        this.buildSuit = this.buildSuit.bind(this);
+        this.draw = this.draw.bind(this);
+        this.deal = this.deal.bind(this);
     }
 
     componentDidMount() {
