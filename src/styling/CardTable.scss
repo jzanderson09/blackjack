@@ -7,10 +7,12 @@
     flex-flow: row wrap;
     height: 80vh;
     margin: auto;
-    width: 80%;
+    width: auto;
     .cards {
-        width: 20%;
-        height: auto;
-        margin: 1%;
+        border-radius: 10%;
+        box-shadow: 1px 1px 1px 3px black;
+        height: 80%;
+        margin: auto;
+        width: auto;
     }
 }

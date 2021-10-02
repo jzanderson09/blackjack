@@ -5,7 +5,7 @@ const ComputerCard = props => {
     if (props.computerHand.length > 1) {
         return (
             <div className="computer-card">
-                {props.computerHand.map(card => <img className='cards' key={card.id} src={card.image} alt={card.value} />)}
+                {props.computerHand.map(card => <img className='cards computer' key={card.id} src={card.image} alt={card.value} />)}
         </div>  
         );
     }
@@ -14,7 +14,7 @@ const ComputerCard = props => {
             <div className="computer-card">
                 <img
                     alt='card'
-                    className='cards'
+                    className='cards computer'
                     key={Math.random()} 
                     src={props.cardBack} 
                 />
