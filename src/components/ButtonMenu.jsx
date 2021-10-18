@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styling/ButtonMenu.scss';
 
 const ButtonMenu = props => {
+    const [options, setOptions] = useState([]);
+    console.log(props);
+    // Evalutes player options based on hand,
+    // Then provides button options:
+    const evaluateOptions = () => {
+
+    };
+
     if (props.play) {
         return (
             <div className='menu'>

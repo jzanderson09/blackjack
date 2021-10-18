@@ -4,17 +4,17 @@ import '../styling/Dealer.scss';
 const Dealer = props => {
     if (props.dealerHand.length > 1) {
         return (
-            <div className="computer-card">
-                {props.dealerHand.map(card => <img className='cards computer' key={card.id} src={card.image} alt={card.value} />)}
+            <div className="dealer-card">
+                {props.dealerHand.map(card => <img className='cards dealer' key={card.id} src={card.image} alt={card.value} />)}
         </div>  
         );
     }
     else {
         return (
-            <div className="computer-card">
+            <div className="dealer-card">
                 <img
                     alt='card'
-                    className='cards computer'
+                    className='cards dealer'
                     key={Math.random()} 
                     src={props.cardBack} 
                 />
