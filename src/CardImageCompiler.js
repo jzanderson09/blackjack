@@ -54,28 +54,18 @@ import QOfHearts from './playing-cards/QofHearts.png';
 import KOfHearts from './playing-cards/KofHearts.png';
 import AOfHearts from './playing-cards/AofHearts.png';
 
-
-export const Clubs = [twoOfClubs, threeOfClubs, fourOfClubs, 
+export const Clubs = [AOfClubs, twoOfClubs, threeOfClubs, fourOfClubs, 
     fiveOfClubs, sixOfClubs, sevenOfClubs, eightOfClubs,
-    nineOfClubs, tenOfClubs, JOfClubs, QOfClubs, KOfClubs,
-    AOfClubs
-];
+    nineOfClubs, tenOfClubs, JOfClubs, QOfClubs, KOfClubs];
 
-export const Spades = [twoOfSpades, threeOfSpades, fourOfSpades, 
+export const Spades = [AOfSpades, twoOfSpades, threeOfSpades, fourOfSpades, 
     fiveOfSpades, sixOfSpades, sevenOfSpades, eightOfSpades,
-    nineOfSpades, tenOfSpades, JOfSpades, QOfSpades, KOfSpades,
-    AOfSpades
-];
+    nineOfSpades, tenOfSpades, JOfSpades, QOfSpades, KOfSpades];
 
-export const Diamonds = [twoOfDiamonds, threeOfDiamonds, fourOfDiamonds,
+export const Diamonds = [AOfDiamonds, twoOfDiamonds, threeOfDiamonds, fourOfDiamonds,
     fiveOfDiamonds, sixOfDiamonds, sevenOfDiamonds, eightOfDiamonds,
-    nineOfDiamonds, tenOfDiamonds, JOfDiamonds, QOfDiamonds, KOfDiamonds,
-    AOfDiamonds
-];
+    nineOfDiamonds, tenOfDiamonds, JOfDiamonds, QOfDiamonds, KOfDiamonds];
 
-export const Hearts = [twoOfHearts, threeOfHearts, fourOfHearts, fiveOfHearts,
+export const Hearts = [AOfHearts, twoOfHearts, threeOfHearts, fourOfHearts, fiveOfHearts,
     sixOfHearts, sevenOfHearts, eightOfHearts, nineOfHearts,
-    tenOfHearts, JOfHearts, QOfHearts, KOfHearts, AOfHearts
-];
-
-export const cardClips = [Clubs, Spades, Diamonds, Hearts];
+    tenOfHearts, JOfHearts, QOfHearts, KOfHearts];
