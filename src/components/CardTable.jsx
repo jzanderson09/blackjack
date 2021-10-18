@@ -1,43 +1,60 @@
 import React, { Component } from 'react';
-import PlayerCard from './PlayerCard';
-import ComputerCard from './ComputerCard';
+import { Clubs, Spades, Diamonds, Hearts } from '../CardImageCompiler.js';
+import cardBack from '../playing-cards/CardBack.png';
 import '../styling/CardTable.scss';
-import { cardClips } from '../CardImageCompiler.js';
+
+
+//Components:
+import Player from './Player';
+import Computer from './Dealer';
+import ButtonMenu from './ButtonMenu';
+import Score from './Score';
 
 class CardTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            cardBack,
             cardDeck: [ ],
+            dealerHand: [ ],
+            dealerScore: 0,
+            numberOfPlayers: 2,
+            play: false,
             playerHand: [ ],
-            computerHand: [ ],
-            numberOfPlayers: 2
+            playerScore: 0,
+            Clubs,
+            Spades,
+            Diamonds,
+            Hearts
         };
+        this.buildDeck = this.buildDeck.bind(this);
+        this.buildSuit = this.buildSuit.bind(this);
+        this.deal = this.deal.bind(this);
+        this.calculateScores = this.calculateScores.bind(this);
+        this.shuffleDeck = this.shuffleDeck.bind(this);
     }
 
     componentDidMount() {
         this.buildDeck();
-        this.deal();
     }
 
-    //Builds full 52 card deck and sets to state:
+    //Builds full 52 card deck (numerically by suit) and sets to state:
     buildDeck() {
         let suitDeck = [ ];
         let completeDeck = [ ];
         let suits = ['Clubs', 'Spades', 'Diamonds', 'Hearts'];
         for (let x = 0; x < suits.length; x++) {
             let currentSuit = suits[x];
-            let suitDeckClips = cardClips[suits];
-            suitDeck = this.buildSuit(currentSuit, suitDeckClips);
+            suitDeck = this.buildSuit(currentSuit);
             completeDeck.push(...suitDeck);
             suitDeck = [ ];
         }
-        completeDeck.sort(() => Math.random() - 0.5);
+        completeDeck = this.shuffleDeck(completeDeck);
         this.setState({ cardDeck: completeDeck });
     }
 
     //Builds suit of 13 cards, adding suit passed in:
-    buildSuit(suit, cardClips) {
+    buildSuit(suit) {
         let deckArr = [ ];
         for (let i = 0; i < 13; i++) {
             let card = { };
@@ -49,6 +66,7 @@ class CardTable extends Component {
                         name: "ace",
                         suit,
                         value: 10,
+                        image: this.state[suit][0]
                     };
                     deckArr.push(card);
                     break;
@@ -59,6 +77,7 @@ class CardTable extends Component {
                         name: "two",
                         suit,
                         value: 2,
+                        image: this.state[suit][1]
                     };
                     deckArr.push(card);
                     break;
@@ -69,6 +88,7 @@ class CardTable extends Component {
                         name: "three",
                         suit,
                         value: 3,
+                        image: this.state[suit][2]
                     };
                     deckArr.push(card);
                     break;
@@ -79,6 +99,7 @@ class CardTable extends Component {
                         name: "four",
                         suit,
                         value: 4,
+                        image: this.state[suit][3]
                     };
                     deckArr.push(card);
                     break;
@@ -89,6 +110,7 @@ class CardTable extends Component {
                         name: "five",
                         suit,
                         value: 5,
+                        image: this.state[suit][4]
                     };
                     deckArr.push(card);
                     break;
@@ -99,6 +121,7 @@ class CardTable extends Component {
                         name: "six",
                         suit,
                         value: 6,
+                        image: this.state[suit][5]
                     };
                     deckArr.push(card);
                     break;
@@ -109,6 +132,7 @@ class CardTable extends Component {
                         name: "seven",
                         suit,
                         value: 7,
+                        image: this.state[suit][6]
                     };
                     deckArr.push(card);
                     break;
@@ -119,6 +143,7 @@ class CardTable extends Component {
                         name: "eight",
                         suit,
                         value: 8,
+                        image: this.state[suit][7]
                     };
                     deckArr.push(card);
                     break;
@@ -129,6 +154,7 @@ class CardTable extends Component {
                         name: "nine",
                         suit,
                         value: 9,
+                        image: this.state[suit][8]
                     };
                     deckArr.push(card);
                     break;
@@ -139,6 +165,7 @@ class CardTable extends Component {
                         name: "ten",
                         suit,
                         value: 10,
+                        image: this.state[suit][9]
                     };
                     deckArr.push(card);
                     break;
@@ -149,6 +176,7 @@ class CardTable extends Component {
                         name: "Jack",
                         suit,
                         value: 10,
+                        image: this.state[suit][10]
                     };
                     deckArr.push(card);
                     break;
@@ -159,6 +187,7 @@ class CardTable extends Component {
                         name: "Queen",
                         suit,
                         value: 10,
+                        image: this.state[suit][11]
                     };
                     deckArr.push(card);
                     break;
@@ -169,6 +198,7 @@ class CardTable extends Component {
                         name: "King",
                         suit,
                         value: 10,
+                        image: this.state[suit][12]
                     };
                     deckArr.push(card);
                     break;
@@ -179,38 +209,64 @@ class CardTable extends Component {
         return deckArr;
     }
 
+    // Draws to player and computer, alternating draws (casino style):
+    deal() {
+        setTimeout(this.calculateScores, 1);
+        // Returns new shuffled deck at end of draws:
+        if (this.state.cardDeck.length < 4) {
+            window.alert('Reshuffling!');
+            this.buildDeck();
+        }
+        const playerHand = [...this.state.cardDeck.splice(0, 1)];
+        const dealerHand = [...this.state.cardDeck.splice(0, 1)];
+        playerHand.push(...this.state.cardDeck.splice(0, 1));
+        dealerHand.push(...this.state.cardDeck.splice(0, 1));
+        dealerHand[0].image = this.state.cardBack;
+        // Toggles finite state (playing, not playing):
+        this.setState({ play: !this.state.play, 
+            dealerHand,playerHand });
+    }
+
+    // Evaluates hand and calculates scores:
+    calculateScores() {
+        let dealerScore = 0;
+        let playerScore = 0;
+        dealerScore = this.state.dealerHand[1].value;
+        this.state.playerHand.forEach(card => playerScore += card.value);
+        this.setState({ dealerScore, playerScore });
+    }
+
     //Generates random index of 1,000,000 number range:
     generateRandomIndex() {
         return Math.floor(Math.random() * 1000000);
     }
 
-    // Draws to player and computer, alternating draws (casino style):
-    draw() {
-        const playerHand = [...this.state.cardDeck.splice(0, 1)];
-        const computerHand = [...this.state.cardDeck.splice(0, 1)];
-        playerHand.push(...this.state.cardDeck.splice(0, 1));
-        computerHand.push(...this.state.cardDeck.splice(0, 1));
-        this.setState({ playerHand, computerHand });
-    }
-
-    //deals cards, alternating draw to player then computer:
-    deal() {
-        if (this.state.cardDeck.length > 1) {
-            this.draw();
-        }
-        else {
-            setTimeout(() => this.draw(), 1000);
-        }
+    //Returns shuffled deck:
+    shuffleDeck(deck) {
+        return deck.sort(() => Math.random() - 0.5);
     }
 
     render() {
         return (
             <div className="card-table">
-                <ComputerCard 
-                    computerHand={this.state.computerHand}
+                <Computer
+                    cardBack={this.state.cardBack} 
+                    dealerHand={this.state.dealerHand}
+                    generateRandomIndex={this.generateRandomIndex}
                 />
-                <PlayerCard 
-                    playerHand={this.state.playerHand}
+                <Player
+                    cardBack={this.state.cardBack}
+                    playerHand={this.state.playerHand} 
+                    generateRandomIndex={this.generateRandomIndex}               
+                />
+                <ButtonMenu
+                    deal={this.deal}
+                    evaluate={this.evaluate}
+                    play={this.state.play}
+                />
+                <Score 
+                    dealerScore={this.state.dealerScore}
+                    playerScore={this.state.playerScore}
                 />
             </div>        
         );
